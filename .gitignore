@@ -1,0 +1,4 @@
+node_modules
+.env
+configs/placement-notifier-dcaaf-firebase-adminsdk-awzkp-e889d44bf6.json
+package-lock.json
