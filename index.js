@@ -20,6 +20,13 @@ app.post('/sendNotification', (req, res) => {
     console.log(company_name, company_logo, job_role, job_description, apply_link);
 
     const message = {
+        data: {
+            company_name,
+            company_logo,
+            job_role,
+            job_description,
+            apply_link
+        },
         android: {
             notification: {
                 title: company_name,
