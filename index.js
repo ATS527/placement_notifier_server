@@ -15,18 +15,13 @@ admin.initializeApp({
 });
 
 app.post('/sendNotification', (req, res) => {
-    const { company_name, company_logo, job_title, job_description, apply_link } = req.body;
+    const { company_name, company_logo, job_role, job_description, apply_link } = req.body;
 
     const message = {
-        data: {
-            company_name,
-            company_logo,
-            job_role,
-            job_description,
-            apply_link
-        },
         android: {
             notification: {
+                title: company_name,
+                body: job_role + "\n" + job_description,
                 imageUrl: company_logo,
                 clickAction: 'news_intent'
             }
@@ -55,7 +50,7 @@ app.post('/sendNotification', (req, res) => {
 
 
 
-    getMessaging().send(message)
+    admin.messaging().send(message)
         .then((response) => {
             // Response is a message ID string.
             console.log('Successfully sent message:', response);
