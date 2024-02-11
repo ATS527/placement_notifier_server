@@ -15,53 +15,48 @@ admin.initializeApp({
 });
 
 app.post('/sendNotification', (req, res) => {
-    const { company_name, company_logo, job_title, job_description, apply_link } = req.body;
+    const { company_name, company_logo, job_role, job_description, apply_link } = req.body;
+
+    console.log(company_name, company_logo, job_role, job_description, apply_link);
 
     const message = {
-        data: {
-            company_name,
-            company_logo,
-            job_title,
-            job_description,
-            apply_link
-        },
         android: {
             notification: {
+                title: company_name,
+                body: job_role,
                 imageUrl: company_logo,
-                clickAction: 'news_intent'
-            }
-        },
-        apns: {
-            payload: {
-                aps: {
-                    'mutable-content': 1,
-                    'category': 'INVITE_CATEGORY'
+                click_action: apply_link
+            },
+            apns: {
+                payload: {
+                    aps: {
+                        'mutable-content': 1,
+                        'category': 'INVITE_CATEGORY'
+                    }
+                },
+                fcm_options: {
+                    image: company_logo
                 }
             },
-            fcm_options: {
-                image: company_logo
-            }
-        },
-        webpush: {
-            headers: {
-                image: company_logo,
+            webpush: {
+                headers: {
+                    image: company_logo,
+                },
+                fcmOptions: {
+                    link: apply_link
+                }
             },
-            fcmOptions: {
-                link: apply_link
-            }
-        },
-        topic: "placement"
-    }
+            topic: "placement"
+        }
+    };
 
-
-
-    getMessaging().send(message)
+    admin.messaging().send(message)
         .then((response) => {
             // Response is a message ID string.
             console.log('Successfully sent message:', response);
         })
         .catch((error) => {
-            console.log('Error sending message:', error);
+            console.log('Error sending message:', error, error.stack);
         });
 });
 
