@@ -14,6 +14,18 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
+app.get("/get-admins", (req, res) => {
+    const { api } = req.headers;
+    if (api === process.env.API_KEY) {
+        res.status(200).json({
+            success: true,
+            admins: process.env.ADMINS.split(",")
+        })
+    } else {
+        res.status(401).send("Unauthorized");
+    }
+});
+
 app.post('/sendNotification', (req, res) => {
     const { company_name, company_logo, job_role, job_description, apply_link } = req.body;
 
