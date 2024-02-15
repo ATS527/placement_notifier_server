@@ -66,9 +66,17 @@ app.post('/sendNotification', (req, res) => {
         .then((response) => {
             // Response is a message ID string.
             console.log('Successfully sent message:', response);
+            res.status(200).json({
+                success: true,
+                message: "Notification sent successfully"
+            });
         })
         .catch((error) => {
             console.log('Error sending message:', error);
+            res.status(500).json({
+                success: false,
+                message: "Error sending notification"
+            });
         });
 });
 
