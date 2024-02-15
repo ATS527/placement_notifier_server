@@ -20,7 +20,7 @@ app.get("/get-admins", (req, res) => {
         res.status(200).json({
             success: true,
             admins: process.env.ADMINS.split(",")
-        })
+        });
     } else {
         res.status(401).send("Unauthorized");
     }
@@ -35,7 +35,7 @@ app.post('/sendNotification', (req, res) => {
                 title: company_name,
                 body: job_role + "\n" + job_description,
                 imageUrl: company_logo,
-                clickAction: 'news_intent'
+                clickAction: 'FLUTTER_NOTIFICATION_CLICK'
             }
         },
         apns: {
